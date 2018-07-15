@@ -10,7 +10,7 @@ module.exports = new PassportLocalStrategy({
   const userData = {
     email: email.trim(),
     password: password.trim(),
-  },
+  };
 
   const newUser = new User(userData);
   newUser.save((err) => {

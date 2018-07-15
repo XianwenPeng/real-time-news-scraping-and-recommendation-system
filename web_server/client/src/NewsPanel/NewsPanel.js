@@ -1,13 +1,13 @@
 import './NewsPanel.css';
-import React, { Component } from 'react';
-import NewsCard from '../NewsCard/NewsCard'
+import Auth from '../Auth/Auth';
+import React from 'react';
+import NewsCard from '../NewsCard/NewsCard';
 import _ from 'lodash';
 
-class NewsPanel extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {news:null};
+class NewsPanel extends React.Component {
+  constructor() {
+    super();
+    this.state = { news:null };
     this.handleScroll = this.handleScroll.bind(this);
   }
 
@@ -18,23 +18,30 @@ class NewsPanel extends Component {
   }
 
   handleScroll() {
-    let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    // different browser
+    let scrollY = window.scrollY ||
+                  window.pageYOffset ||
+                  document.documentElement.scrollTop;
     if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50)) {
       console.log('Loading more news');
       this.loadMoreNews();
     }
   }
 
-  loadMoreNews(e) {
+  loadMoreNews() {
     let request = new Request('http://localhost:3000/news', {
       method: 'GET',
+      headers: {
+        'Authorization': 'bearer ' + Auth.getToken(),
+      },
       cache: false
     });
+
     fetch(request)
       .then((news) => {
         this.setState({
-          news: this.state.news ? this.state.news.concat(news) : news,
-        })
+          news:this.state.news ? this.state.news.concat(news) : news,
+        });
       });
   }
 

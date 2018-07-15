@@ -1,13 +1,16 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Auth from '../Auth/Auth';
 
 import SignUpForm from './SignUpForm';
 
 class SignUpPage extends React.Component {
-
   constructor(props, context) {
     super(props, context);
 
+    // set the initial component state
     this.state = {
+      // errors: {summary: 'summary error', email: 'email error', password: 'password error'},
       errors: {},
       user: {
         email: '',
@@ -20,6 +23,7 @@ class SignUpPage extends React.Component {
     this.changeUser = this.changeUser.bind(this);
   }
 
+  // Pre-submission.
   processForm(event) {
     event.preventDefault();
 
@@ -27,24 +31,21 @@ class SignUpPage extends React.Component {
     const password = this.state.user.password;
     const confirm_password = this.state.user.confirm_password;
 
-    console.log('email: ', email);
-    console.log('password: ', password);
-    console.log('confirm_password', confirm_password);
-
     if (password !== confirm_password) {
       return;
     }
 
+    // Post signup data.
     fetch('http://localhost:3000/auth/signup', {
       method: 'POST',
       cache: false,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: this.state.user.email,
-        password: this.state.user.password
+        email: email,
+        password: password
       })
     }).then(response => {
       if (response.status === 200) {
@@ -52,14 +53,13 @@ class SignUpPage extends React.Component {
           errors: {}
         });
 
+        // change the current URL to /login
         this.context.router.replace('/login');
-      }
-      else {
+      } else {
         response.json().then(function(json) {
           console.log(json);
           const errors = json.errors ? json.errors : {};
           errors.summary = json.message;
-          console.log(this.state.errors);
           this.setState({errors});
         }.bind(this));
       }
@@ -71,9 +71,7 @@ class SignUpPage extends React.Component {
     const user = this.state.user;
     user[field] = event.target.value;
 
-    this.setState({
-      user
-    });
+    this.setState({ user });
 
     if (this.state.user.password !== this.state.user.confirm_password) {
       const errors = this.state.errors;
@@ -97,5 +95,10 @@ class SignUpPage extends React.Component {
     );
   }
 }
+
+// To make react-router work
+SignUpPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default SignUpPage;
