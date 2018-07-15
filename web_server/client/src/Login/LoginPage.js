@@ -1,4 +1,4 @@
-import React { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 import Auth from '../Auth/Auth';
 import LoginForm from './LoginForm';
@@ -9,7 +9,7 @@ class LoginPage extends React.Component {
     super(props, context);
 
     this.state = {
-      errors: {};
+      errors: {},
       user: {
         email: '',
         password: ''
@@ -23,7 +23,7 @@ class LoginPage extends React.Component {
   processForm(event) {
     event.preventDefault();
 
-    const email = this,state.user.email;
+    const email = this.state.user.email;
     const password = this.state.user.password;
 
     console.log('email: ', email);
@@ -84,3 +84,5 @@ class LoginPage extends React.Component {
     );
   }
 }
+
+export default LoginPage;

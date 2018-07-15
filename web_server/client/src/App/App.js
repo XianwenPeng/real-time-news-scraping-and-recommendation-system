@@ -4,7 +4,7 @@ import 'materialize-css/dist/js/materialize.min.js'
 import React, { Component } from 'react';
 import logo from '../logo.png';
 import './App.css';
-import NewsPanel from './NewsPanel/NewsPanel.js';
+import NewsPanel from '../NewsPanel/NewsPanel.js';
 
 class App extends Component {
   render() {

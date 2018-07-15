@@ -2,6 +2,8 @@ import pyjsonrpc
 import os
 import sys
 
+from bson.json_util import dumps
+
 # import common package in parent directory
 
 sys.path.apend(os.path.join(os.path.dirname(__file__), './', 'utils'))
@@ -19,7 +21,8 @@ class RequestHandler(pyjsonrpc.HttpRequestHandler):
     @pyjsonrpc.rpcmethod
     def getNews(self):
         db = mongodb_client.get_db()
-        return list(db['news'].find())
+        news = list(db['news'].find())
+        return json.loads(dumps(news))
 
 http_server = pyjsonrpc.ThreadingHttpServer(
     server_address = (SERVER_HOST, SERVER_PORT),

@@ -1,4 +1,4 @@
-import React { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 import SignUpForm from './SignUpForm';
 
@@ -8,7 +8,7 @@ class SignUpPage extends React.Component {
     super(props, context);
 
     this.state = {
-      errors: {};
+      errors: {},
       user: {
         email: '',
         password: '',
@@ -23,7 +23,7 @@ class SignUpPage extends React.Component {
   processForm(event) {
     event.preventDefault();
 
-    const email = this,state.user.email;
+    const email = this.state.user.email;
     const password = this.state.user.password;
     const confirm_password = this.state.user.confirm_password;
 
@@ -97,3 +97,5 @@ class SignUpPage extends React.Component {
     );
   }
 }
+
+export default SignUpPage;

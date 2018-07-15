@@ -31,7 +31,6 @@ class NewsPanel extends Component {
       cache: false
     });
     fetch(request)
-      .then((res) => res.json())
       .then((news) => {
         this.setState({
           news: this.state.news ? this.state.news.concat(news) : news,
